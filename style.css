@@ -57,3 +57,21 @@ button:hover{
   background: #0056b3;
   transform: scale(1.03);
 }
+
+.tabs{
+  text-align: center;
+}
+
+.tabs button{
+  display: inline-block;
+  margin: 5px;
+  width: auto;
+  padding: 10px 20px;
+  background-color: #6c757d;
+  transition: 0.3s, 0.2s;
+}
+
+.tabs button:hover{
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
