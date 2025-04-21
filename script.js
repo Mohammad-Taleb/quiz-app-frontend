@@ -50,8 +50,7 @@ function login(){
 
 if(window.location.pathname.includes("home.html")){
   const quizList = document.getElementById("quizList");
-  const currentUser = localStorage.getItem("currentUser");
-
+  
   const quizzes = [
     {
       id: 1,
@@ -138,4 +137,29 @@ function submitQuiz(){
   });
 
     localStorage.setItem("users", JSON.stringify(users));
+  }
+
+  if(window.location.pathname.includes("quiz.html")){
+    const users = JSON.parse(localStorage.getItem("users"));
+    const userScores = document.getElementById("userScores");
+  
+    if(users.length === 0){
+      userScores.innerHTML = "<p>No users found.</p>";
+    } else {
+      users.forEach(user => {
+        const userDiv = document.createElement("div");
+        userDiv.innerHTML = `<h3>${user.email}</h3>`;
+
+        const scores = user.scores || {};
+        if(Object.keys(scores).length === 0){
+          userDiv.innerHTML += `<p>No quiz scores yet.</p>`;
+        } else{
+          for (let quizName in scores){
+            userDiv.innerHTML += `<p>${quizName}: ${scores[quizName]}</p>`;
+          }
+        }
+
+        userScores.appendChild(userDiv);
+      });
+    }
   }
