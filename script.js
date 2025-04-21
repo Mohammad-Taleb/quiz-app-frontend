@@ -47,3 +47,30 @@ function login(){
     alert("Incorrect email or password!");
   }
 }
+
+if(window.location.pathname.includes("home.html")){
+  const quizList = document.getElementById("quizList");
+  const currentUser = localStorage.getItem("currentUser");
+
+  const quizzes = [
+    {
+      id: 1,
+      title: "JavaScript Basics",
+      questions: [
+        { q: "What is JavaScript?", options: ["Programming Language", "Car Brand", "Coffee"], answer: "Programming Language" },
+        { q: "Which keyword declares a variable?", options: ["var", "int", "string"], answer: "var" },
+        { q: "What does HTML stand for?", options: ["HyperText Markup Language", "Hot Mail", "How To Make Language"], answer: "HyperText Markup Language" }
+      ]
+    },
+    {
+      id: 2,
+      title: "CSS Basics",
+      questions: [
+        { q: "What does CSS stand for?", options: ["Cascading Style Sheets", "Creative Style Syntax", "Computer Style Sheets"], answer: "Cascading Style Sheets" },
+        { q: "Which property is used to change text color?", options: ["text-color", "font-color", "color"], answer: "color" },
+        { q: "How do you select an element with class 'box'?", options: [".box", "#box", "box"], answer: ".box" }
+      ]
+    }
+  ];
+
+}
