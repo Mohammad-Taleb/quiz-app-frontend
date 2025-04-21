@@ -25,3 +25,25 @@ function register(){
 
   showTab("login");
 }
+
+
+function login(){
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  const users = JSON.parse(localStorage.getItem("users"))
+
+  if(email === "admin" && password === "admin"){
+    localStorage.setItem("currentUser", email);
+    window.location.href = "dashboard.html";
+    return;
+  }
+
+  const user = users.find(user => user.email === email && user.password === password);
+  if(user){
+    localStorage.setItem("currentUser", email);
+    window.location.href = "home.html";
+  } else{
+    alert("Incorrect email or password!");
+  }
+}
