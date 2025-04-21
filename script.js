@@ -7,12 +7,11 @@ function showTab(tabId){
 }
 
 
-
-
-
 function register(){
   const email = document.getElementById("regEmail").value;
   const password = document.getElementById("regPassword").value;
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
 
   const userExists = users.find(user => user.email ===email);
   if(userExists){
@@ -21,6 +20,8 @@ function register(){
   }
 
   users.push({email, password, scores: {} });
+  localStorage.setItem("users", JSON.stringify(users))
   alert("Registration successful! Please log in.");
 
+  showTab("login");
 }
