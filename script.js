@@ -88,3 +88,27 @@ if(window.location.pathname.includes("home.html")){
     quizList.appendChild(button);
   });
 }
+
+if(window.location.pathname.includes("quiz.html")){
+  const quiz = JSON.parse(localStorage.getItem("currentQuiz"));
+  const quizTitle = document.getElementById("quizTitle");
+  const quizForm = document.getElementById("quizForm");
+
+  quizTitle.textContent = quiz.title;
+
+  quiz.questions.forEach((question, index) => {
+    const questionDiv = document.createElement("div");
+    questionDiv.innerHTML = `<p>${question.q}</p>`;
+
+    question.options.forEach(option => {
+      questionDiv.innerHTML += `
+      <label>
+        <input type="radio" name="q${index}" value"${option}"/>
+        ${option}
+        </label><br>
+        `;
+    });
+
+    quizForm.appendChild(questionDiv);
+  });
+}
