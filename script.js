@@ -73,4 +73,18 @@ if(window.location.pathname.includes("home.html")){
     }
   ];
 
+  if(!localStorage.getItem("quizzes")){
+    localStorage.setItem("quizzes", JSON.stringify(quizzes));
+  }
+
+  const savedQuizzes = JSON.parse(localStorage.getItem("quizzes"));
+  savedQuizzes.forEach(quiz => {
+    const button = document.createElement("button");
+    button.textContent = quiz.title;
+    button.addEventListener("click", () => {
+      localStorage.setItem("currentQuiz", JSON.stringify(quiz));
+      window.location.href = "quiz.html";
+    });
+    quizList.appendChild(button);
+  });
 }
