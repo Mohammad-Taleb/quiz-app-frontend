@@ -112,3 +112,30 @@ if(window.location.pathname.includes("quiz.html")){
     quizForm.appendChild(questionDiv);
   });
 }
+
+function submitQuiz(){
+  const quiz = JSON.parse(localStorage.getItem("currentQuiz"));
+  let score = 0;
+
+  quiz.questions.forEach((question,index) => {
+    const selectedOption = document.querySelector(`input[name"q${index}"]:checked`);
+    if(selectedOption && selectedOption.value === question.answer){
+      score++;
+    }
+  });
+
+  const result = document.getElementById("result");
+  result.textContent = `You scored ${score} out of ${quiz.questions.length}`;
+
+
+  const currentUser = localStorage.getItem("currentUser");
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  users.forEach(user => {
+    if(user.email === currentUser){
+      user.scores[quiz.title] = score;
+    }
+  });
+
+    localStorage.setItem("users", JSON.stringify(users));
+  }
