@@ -20,7 +20,7 @@ function register(){
   }
 
   users.push({email, password, scores: {} });
-  localStorage.setItem("users", JSON.stringify(users))
+  localStorage.setItem("users", JSON.stringify(users));
   alert("Registration successful! Please log in.");
 
   showTab("login");
@@ -48,13 +48,13 @@ function login(){
   }
 }
 
-if(window.location.pathname.includes("./pages/home.html")){
+if(window.location.pathname.includes("home.html")){
   const quizList = document.getElementById("quizList");
   
   const quizzes = [
     {
       id: 1,
-      title: "JavaScript Basics",
+      title: "Programming Basics",
       questions: [
         { q: "What is JavaScript?", options: ["Programming Language", "Car Brand", "Coffee"], answer: "Programming Language" },
         { q: "Which keyword declares a variable?", options: ["var", "int", "string"], answer: "var" },
@@ -82,13 +82,13 @@ if(window.location.pathname.includes("./pages/home.html")){
     button.textContent = quiz.title;
     button.addEventListener("click", () => {
       localStorage.setItem("currentQuiz", JSON.stringify(quiz));
-      window.location.href = "./pages/quiz.html";
+      window.location.href = "quiz.html";
     });
     quizList.appendChild(button);
   });
 }
 
-if(window.location.pathname.includes("./pages/quiz.html")){
+if(window.location.pathname.includes("quiz.html")){
   const quiz = JSON.parse(localStorage.getItem("currentQuiz"));
   const quizTitle = document.getElementById("quizTitle");
   const quizForm = document.getElementById("quizForm");
@@ -102,7 +102,7 @@ if(window.location.pathname.includes("./pages/quiz.html")){
     question.options.forEach(option => {
       questionDiv.innerHTML += `
       <label>
-        <input type="radio" name="q${index}" value"${option}"/>
+        <input type="radio" name="q${index}" value="${option}"/>
         ${option}
         </label><br>
         `;
@@ -117,7 +117,7 @@ function submitQuiz(){
   let score = 0;
 
   quiz.questions.forEach((question,index) => {
-    const selectedOption = document.querySelector(`input[name"q${index}"]:checked`);
+    const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
     if(selectedOption && selectedOption.value === question.answer){
       score++;
     }
@@ -137,29 +137,30 @@ function submitQuiz(){
   });
 
     localStorage.setItem("users", JSON.stringify(users));
-  }
 
-  if(window.location.pathname.includes("./pages/quiz.html")){
-    const users = JSON.parse(localStorage.getItem("users"));
-    const userScores = document.getElementById("userScores");
+}
   
-    if(users.length === 0){
-      userScores.innerHTML = "<p>No users found.</p>";
-    } else {
-      users.forEach(user => {
-        const userDiv = document.createElement("div");
-        userDiv.innerHTML = `<h3>${user.email}</h3>`;
+if(window.location.pathname.includes("dashboard.html")){
+  const userScores = document.getElementById("userScores");
+  const users = JSON.parse(localStorage.getItem("users")) || [];
 
-        const scores = user.scores || {};
-        if(Object.keys(scores).length === 0){
-          userDiv.innerHTML += `<p>No quiz scores yet.</p>`;
-        } else{
-          for (let quizName in scores){
-            userDiv.innerHTML += `<p>${quizName}: ${scores[quizName]}</p>`;
-          }
+  if(users.length === 0){
+    userScores.innerHTML = "<p>No users found.</p>";
+  } else {
+    users.forEach(user => {
+      const userDiv = document.createElement("div");
+      userDiv.innerHTML = `<h3>${user.email}</h3>`;
+
+      const scores = user.scores || {};
+      if(Object.keys(scores).length === 0){
+        userDiv.innerHTML += `<p>No quiz scores yet.</p>`;
+      } else{
+        for (let quizName in scores){
+          userDiv.innerHTML += `<p>${quizName}: ${scores[quizName]}</p>`;
         }
+      }
 
-        userScores.appendChild(userDiv);
-      });
-    }
+      userScores.appendChild(userDiv);
+    });
   }
+}
