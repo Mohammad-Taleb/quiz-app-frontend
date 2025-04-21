@@ -15,7 +15,7 @@ function register(){
 
   const userExists = users.find(user => user.email ===email);
   if(userExists){
-    alert("User already registered")
+    alert("User already registered");
     return;
   }
 
@@ -31,7 +31,7 @@ function login(){
   const email = document.getElementById("loginEmail").value;
   const password = document.getElementById("loginPassword").value;
 
-  const users = JSON.parse(localStorage.getItem("users"))
+  const users = JSON.parse(localStorage.getItem("users")) || {};
 
   if(email === "admin" && password === "admin"){
     localStorage.setItem("currentUser", email);
