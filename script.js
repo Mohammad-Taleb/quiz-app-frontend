@@ -35,20 +35,20 @@ function login(){
 
   if(email === "admin" && password === "admin"){
     localStorage.setItem("currentUser", email);
-    window.location.href = "dashboard.html";
+    window.location.href = "./pages/dashboard.html";
     return;
   }
 
   const user = users.find(user => user.email === email && user.password === password);
   if(user){
     localStorage.setItem("currentUser", email);
-    window.location.href = "home.html";
+    window.location.href = "./pages/home.html";
   } else{
     alert("Incorrect email or password!");
   }
 }
 
-if(window.location.pathname.includes("home.html")){
+if(window.location.pathname.includes("./pages/home.html")){
   const quizList = document.getElementById("quizList");
   
   const quizzes = [
@@ -82,13 +82,13 @@ if(window.location.pathname.includes("home.html")){
     button.textContent = quiz.title;
     button.addEventListener("click", () => {
       localStorage.setItem("currentQuiz", JSON.stringify(quiz));
-      window.location.href = "quiz.html";
+      window.location.href = "./pages/quiz.html";
     });
     quizList.appendChild(button);
   });
 }
 
-if(window.location.pathname.includes("quiz.html")){
+if(window.location.pathname.includes("./pages/quiz.html")){
   const quiz = JSON.parse(localStorage.getItem("currentQuiz"));
   const quizTitle = document.getElementById("quizTitle");
   const quizForm = document.getElementById("quizForm");
@@ -139,7 +139,7 @@ function submitQuiz(){
     localStorage.setItem("users", JSON.stringify(users));
   }
 
-  if(window.location.pathname.includes("quiz.html")){
+  if(window.location.pathname.includes("./pages/quiz.html")){
     const users = JSON.parse(localStorage.getItem("users"));
     const userScores = document.getElementById("userScores");
   
