@@ -1,3 +1,4 @@
+// switch between login and register tabs
 function showTab(tabId){
   const allTabs = document.querySelectorAll('.tab');
   allTabs.forEach(tab => tab.classList.remove('active'));
@@ -6,19 +7,22 @@ function showTab(tabId){
   activeTab.classList.add('active');
 }
 
-
+// register a new user
 function register(){
   const email = document.getElementById("regEmail").value;
   const password = document.getElementById("regPassword").value;
 
+  // get users from local storage or use empty array
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
+  // check if user already exists
   const userExists = users.find(user => user.email ===email);
   if(userExists){
     alert("User already registered");
     return;
   }
 
+  // add new user
   users.push({email, password, scores: {} });
   localStorage.setItem("users", JSON.stringify(users));
   alert("Registration successful! Please log in.");
@@ -26,19 +30,21 @@ function register(){
   showTab("login");
 }
 
-
+// log in existing user
 function login(){
   const email = document.getElementById("loginEmail").value;
   const password = document.getElementById("loginPassword").value;
 
   const users = JSON.parse(localStorage.getItem("users")) || {};
 
+  // admin account by default
   if(email === "admin" && password === "admin"){
     localStorage.setItem("currentUser", email);
     window.location.href = "./pages/dashboard.html";
     return;
   }
 
+  // regular user login
   const user = users.find(user => user.email === email && user.password === password);
   if(user){
     localStorage.setItem("currentUser", email);
@@ -48,9 +54,11 @@ function login(){
   }
 }
 
+// home page: load and display quizzes
 if(window.location.pathname.includes("home.html")){
   const quizList = document.getElementById("quizList");
   
+  // list of quizzes 
   const quizzes = [
     {
       id: 1,
@@ -72,10 +80,12 @@ if(window.location.pathname.includes("home.html")){
     }
   ];
 
+  // save quizzes if not already saved
   if(!localStorage.getItem("quizzes")){
     localStorage.setItem("quizzes", JSON.stringify(quizzes));
   }
 
+  // display quiz buttons
   const savedQuizzes = JSON.parse(localStorage.getItem("quizzes"));
   savedQuizzes.forEach(quiz => {
     const button = document.createElement("button");
@@ -88,6 +98,7 @@ if(window.location.pathname.includes("home.html")){
   });
 }
 
+ // quiz page: display questions
 if(window.location.pathname.includes("quiz.html")){
   const quiz = JSON.parse(localStorage.getItem("currentQuiz"));
   const quizTitle = document.getElementById("quizTitle");
@@ -95,6 +106,7 @@ if(window.location.pathname.includes("quiz.html")){
 
   quizTitle.textContent = quiz.title;
 
+  // display each question
   quiz.questions.forEach((question, index) => {
     const questionDiv = document.createElement("div");
     questionDiv.innerHTML = `<p>${question.q}</p>`;
@@ -112,6 +124,7 @@ if(window.location.pathname.includes("quiz.html")){
   });
 }
 
+// submit quiz and show score
 function submitQuiz(){
   const quiz = JSON.parse(localStorage.getItem("currentQuiz"));
   let score = 0;
@@ -123,10 +136,11 @@ function submitQuiz(){
     }
   });
 
+  // dispaly result
   const result = document.getElementById("result");
   result.textContent = `You scored ${score} out of ${quiz.questions.length}`;
 
-
+  // save score to current user
   const currentUser = localStorage.getItem("currentUser");
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -140,6 +154,7 @@ function submitQuiz(){
 
 }
   
+// dashboard page: show all users score
 if(window.location.pathname.includes("dashboard.html")){
   const userScores = document.getElementById("userScores");
   const users = JSON.parse(localStorage.getItem("users")) || [];
